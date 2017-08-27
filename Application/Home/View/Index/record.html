@@ -1,0 +1,50 @@
+<extend name="index" />
+
+<block name="container">
+    <div class="container">
+        <div class="panel" style="margin-top: 5px;">
+            <div class="panel-heading" style="font-size: 16px;margin-bottom: 20px;">
+                      卡号查询                                             
+            </div>
+            <div class="panel-body"  id="panelbody">
+                <div class="input-group" style="width: 50%;">
+                    <input type="text" class="form-control" id="carnum">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" onclick="searchport()">搜索</button>
+                    </span>
+                </div>
+                <div id="answer" style="display: none;margin-top: 10px;">
+                	
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
+
+<block name="jsinbody">
+    <script>
+        
+           
+        function searchport(){
+            $("#answer").hide();
+            
+            var carnum;
+            carnum = $("#carnum").val();
+            //alert(carnum);     
+            $.ajax({
+                type : "POST",
+                url:"{:U('Index/getdata')}",
+                data : {carnum:carnum},
+                success: function(data){
+                    if (data.status == 'false') {
+                        alert("您输入的车牌号不存在，请重新输入。");
+                    } else {
+                        //alert(data.pid);
+                        $("#answer").show();
+                        $("#answer").html("您的车位于" + data.pid + "号车位。");
+                    }
+                }
+            });
+        }
+    </script>
+</block>                      
